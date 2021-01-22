@@ -22,36 +22,40 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
-checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, GPS_PERMISSION_CODE);
+        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
+        checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, GPS_PERMISSION_CODE);
+        checkPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION, GPS_BACKGROUND_PERMISSION_CODE);
     }
 
     private void checkPermission(String permission, int permissionCode) {
-        if(ContextCompat.checkSelfPermission(MainActivity.this, permission) == PackageManager.PERMISSION_DENIED){
-            ActivityCompat.requestPermissions(this, new String[]{permission},permissionCode);
-        }
-        else{
+        if (ContextCompat.checkSelfPermission(MainActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, new String[]{permission}, permissionCode);
+        } else {
             Toast.makeText(MainActivity.this, "Permission already granted", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantedResults){
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantedResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantedResults);
-        if(requestCode == STORAGE_PERMISSION_CODE){
-            if(grantedResults.length > 0 && grantedResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (grantedResults.length > 0 && grantedResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(MainActivity.this, "Storage permission is already granted", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(MainActivity.this, "Storage permission is denied by User", Toast.LENGTH_SHORT).show();
             }
-        }
-        else if(requestCode == GPS_PERMISSION_CODE){
-            if(grantedResults.length > 0 && grantedResults[0] == PackageManager.PERMISSION_GRANTED){
+        } else if (requestCode == GPS_PERMISSION_CODE) {
+            if (grantedResults.length > 0 && grantedResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(MainActivity.this, "GPS permission is already granted", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(MainActivity.this, "GPS permission is denied by User", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if(requestCode == GPS_BACKGROUND_PERMISSION_CODE) {
+            if(grantedResults.length > 0 && grantedResults[0] == PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(MainActivity.this, "Background location permission is already granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(MainActivity.this, "Background location permission is denied by User", Toast.LENGTH_SHORT).show();
             }
         }
     }
